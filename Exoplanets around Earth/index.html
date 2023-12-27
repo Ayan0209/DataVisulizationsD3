@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        img {
+            max-width: 7.5%;
+            height: auto;
+            z-index: 1;
+        }
+
+        .neptune {
+            fill: url(#neptune-pattern);
+        }
+
+        .gas-giant {
+            fill: url(#gas-giant-pattern);
+        }
+
+        .other {
+            fill: url(#others-pattern);
+        }
+
+        #playButton, #pauseButton {
+            position: absolute;
+            top: 20px;
+            right: 60px;
+            cursor: pointer;
+            z-index: 2;
+            border: none; 
+            background: none; 
+        }
+
+        #topText {
+            fill: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-anchor: start;
+            alignment-baseline: hanging;
+            margin: 10px;
+        }
+
+        #subText {
+            fill: white;
+            font-size: 16px;
+            text-anchor: start;
+            alignment-baseline: hanging;
+            margin: 10px;
+        }
+
+        #playButton svg, #pauseButton svg {
+            fill: white;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+    <title>Exoplanets</title>
+</head>
+
+<body>
+    <svg>
+        <text id="topText" x="10" y="10">Homework 5: Exploring Exoplanets</text>
+        <text id="topText" x="10" y="40">Ayan Gautam - agauta20@asu.edu</text>
+        <text id="subText" x="10" y="70">Press play button on the right to start animation</text>
+        <text id="subText" x="10" y="90">The distance from the earth signifies the distance of exoplanets from the earth in lightyears.</text>
+        <text id="subText" x="10" y="110">The size of the circle signifies the stellar magnitude of the exoplanet.</text>
+        <text id="subText" x="10" y="130">Feel free to explore the data by hovering on the circles.</text>
+        <rect x="84%" y="75%" width="200" height="150" fill="grey" stroke="black" stroke-width="1" rx="5" ry="5" />
+        
+        <image href="data/neptune.png" width="45" height="45" x="85%" y="77%" />
+        <text fill="white" x="90%" y="80%" alignment-baseline="middle">Neptune-like</text>
+
+        <image href="data/gas.png" width="40" height="40" x="85%" y="82%" />
+        <text fill="white" x="90%" y="85%" alignment-baseline="middle">Gas-Giant</text>
+
+        <image href="data/others.png" width="40" height="40" x="85%" y="87%" />
+        <text fill="white" x="90%" y="90%" alignment-baseline="middle">Others</text>
+
+        <defs>
+            <pattern id="neptune-pattern" patternUnits="objectBoundingBox" width="100%" height="100%">
+                <image href="data/neptune.png" width="55" height="55" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+            <pattern id="gas-giant-pattern" patternUnits="objectBoundingBox" width="100%" height="100%">
+                <image href="data/gas.png" width="55" height="55" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+            <pattern id="others-pattern" patternUnits="objectBoundingBox" width="100%" height="100%">
+                <image href="data/others.png" width="55" height="55" preserveAspectRatio="xMidYMin slice" />
+            </pattern>
+        </defs>
+    </svg>
+    <img id="sun" src="data/earth.png" alt="Earth Image">
+    <button id="playButton"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button>
+    <button id="pauseButton" style="display:none;"><svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button>
+    <script>
+
+        var isPlaying = false;
+
+        d3.csv("output.csv").then(function (data) {
+            
+            var svg = d3.select("body").append("svg")
+                .attr("width", "100%")
+                .attr("height", "100%");
+
+            
+            var sun = d3.select("#sun");
+
+            var centerX = svg.node().getBoundingClientRect().width / 2;
+            var centerY = svg.node().getBoundingClientRect().height / 2;
+
+            var circles = svg.selectAll("circle")
+                .data(data)
+                .enter().append("circle")
+                .attr("cx", centerX)
+                .attr("cy", centerY)
+                .on("mouseover", showTooltip)
+                .on("mouseout", hideTooltip)
+                .attr("class", function (d) {
+                    
+                    if (d.planet_type === "Neptune-like") {
+                        return "neptune";
+                    } else if (d.planet_type === "Gas Giant") {
+                        return "gas-giant";
+                    } else {
+                        return "other";
+                    }
+                })
+                .attr("r", function (d) {
+                    
+                    return 7 + (d.stellar_magnitude / 10) * 10;
+                });
+
+            circles.attr("cx", function (d, i) {
+                return centerX + (d.distance / 10) * Math.cos(i * 2 * Math.PI / data.length);
+            })
+                .attr("cy", function (d, i) {
+                    return centerY + (d.distance / 10) * Math.sin(i * 2 * Math.PI / data.length);
+                });
+
+            var updateCircles = function () {
+                var time = performance.now();
+
+                circles.transition()
+                    .duration(1600)  
+                    .attr("cx", function (d, i) {
+                        var x = centerX + (d.distance / 10) * Math.cos(i * 2 * Math.PI / data.length + time / 8000);
+                        return x;
+                    })
+                    .attr("cy", function (d, i) {
+                        var y = centerY + (d.distance / 10) * Math.sin(i * 2 * Math.PI / data.length + time / 8000);
+                        return y;
+                    })
+                    .on("end", updateCircles);
+            };
+
+            function showTooltip(event, d) {
+                
+                var tooltipBox = svg.append("rect")
+                    .attr("class", "tooltip")
+                    .attr("x", event.pageX - 95)
+                    .attr("y", event.pageY - 40)
+                    .attr("width", 200)
+                    .attr("height", 90)
+                    .attr("fill", "grey")
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 1)
+                    .attr("rx", 10) 
+                    .attr("ry", 10);
+
+                
+                svg.append("text")
+                    .attr("class", "tooltip")
+                    .attr("x", event.pageX)
+                    .attr("y", event.pageY - 20)
+                    .text(`Name: ${d.name}`)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "white");
+
+                svg.append("text")
+                    .attr("class", "tooltip")
+                    .attr("x", event.pageX)
+                    .attr("y", event.pageY)
+                    .text(`Distance: ${d.distance}`)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "white");
+
+                svg.append("text")
+                    .attr("class", "tooltip")
+                    .attr("x", event.pageX)
+                    .attr("y", event.pageY + 20)
+                    .text(`Stellar Magnitude: ${d.stellar_magnitude}`)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "white");
+
+                svg.append("text")
+                    .attr("class", "tooltip")
+                    .attr("x", event.pageX)
+                    .attr("y", event.pageY + 40)
+                    .text(`Planet Type: ${d.planet_type}`)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "white");
+            }
+
+            function hideTooltip() {
+                
+                svg.selectAll(".tooltip").remove();
+            }
+
+            document.getElementById('playButton').addEventListener('click', function () {
+                isPlaying = true; 
+                
+                document.getElementById('playButton').style.display = 'none';
+                document.getElementById('pauseButton').style.display = 'block';
+                
+                updateCircles();
+            });
+
+            document.getElementById('pauseButton').addEventListener('click', function () {
+                isPlaying = false; 
+                document.getElementById('pauseButton').style.display = 'none';
+                document.getElementById('playButton').style.display = 'block';
+                circles.interrupt();
+            });
+
+        });
+    </script>
+</body>
+
+</html>
