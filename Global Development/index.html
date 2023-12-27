@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <title>Homework 4</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .control-panel {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .button {
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      color: white;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .button:hover {
+      background-color: #0077b6;
+    }
+
+    .button.primary {
+      background-color: #009688;
+    }
+
+    .button.secondary {
+      background-color: #f25f5c;
+    }
+
+    .button.tertiary {
+      background-color: #ff7400;
+    }
+
+    .button.play {
+      background-color: #00a896;
+    }
+
+    .button.pause {
+      background-color: #f25f5c;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .range-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .range-slider {
+      width: 100%;
+    }
+
+    .year-label {
+      font-weight: bold;
+    }
+
+    .tooltip {
+      position: absolute;
+      background-color: lightgrey;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 5px;
+      display: none;
+    }
+
+    .axis-label {
+      font-size: 14px;
+    }
+
+    #chart {
+      background-color: white;
+      border-radius: 10px;
+      margin: 20px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #key {
+      background-color: white;
+      border-radius: 10px;
+      margin: 20px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Global Development Data Visualization</h1>
+    <h1>Homework #2: D3 Linking</h1>
+    <h3>Ayan Gautam - agauta20@asu.edu</h3>
+    <div class="control-panel">
+      <div>
+        <label class="label" for="x-axis-dropdown">X-axis:</label>
+        <select id="x-axis-dropdown"></select>
+      </div>
+      <div>
+        <label class="label" for="size-dropdown">Size:</label>
+        <select id="size-dropdown"></select>
+      </div>
+      <div id="region-selector">
+        <label class="label" for="regions">Regions:</label>
+      </div>
+
+      <div id="region-buttons">
+        <button class="button primary" id="select-all" onclick="selectAll()">Select All</button>
+        <button class="button secondary" id="deselect-all" onclick="deselectAll()">Deselect All</button>
+      </div>
+      <div class="range-container">
+        <label class="label year-label" for="year-slider">Year:</label>
+        <input class="range-slider" type="range" id="year-slider" min="1980" max="2013" step="1" value="1980">
+        <span id="selected-year">1980</span>
+      </div>
+      <button class="button tertiary play" id="play-button">Play</button>
+    </div>
+
+  </div>
+  <div id="key">
+    <h2>Size key for <span id="selectedSizeAttributeLabel">selectedSizeAttribute</span></h2>
+  </div>
+  <div id="chart"></div>
+</body>
+
+</html>
+<script src="agauta20.js"></script>
+<script>
+  const primaryButton = document.getElementById("select-all");
+  const secondaryButton = document.getElementById("deselect-all");
+  const tertiaryButton = document.getElementById("play-button");
+
+  primaryButton.addEventListener("mouseover", function () {
+    primaryButton.style.backgroundColor = "#0077b6";
+  });
+
+  primaryButton.addEventListener("mouseout", function () {
+    primaryButton.style.backgroundColor = "#009688";
+  });
+
+  secondaryButton.addEventListener("mouseover", function () {
+    secondaryButton.style.backgroundColor = "#0077b6";
+  });
+
+  secondaryButton.addEventListener("mouseout", function () {
+    secondaryButton.style.backgroundColor = "#f25f5c";
+  });
+
+  tertiaryButton.addEventListener("mouseover", function () {
+    tertiaryButton.style.backgroundColor = "#0077b6";
+  });
+
+  tertiaryButton.addEventListener("mouseout", function () {
+    tertiaryButton.style.backgroundColor = "#ff7400";
+  });
+</script>
