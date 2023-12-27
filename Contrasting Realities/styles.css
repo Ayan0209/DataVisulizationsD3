@@ -1,0 +1,99 @@
+/* Add this CSS to center SVG elements in left and right panels */
+.left-panel svg,
+.right-panel svg {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Additional styling for your existing CSS */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.breaker {
+  height: 50vh;
+  background-color: white;
+  border: 5px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tooltip{
+  position: absolute;
+  text-align: center;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.center-panel {
+  text-align: center;
+  color: black;
+}
+
+.step {
+  display: flex;
+  justify-content: space-between;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+.left-panel,
+.right-panel {
+  flex: 1;
+}
+
+.step {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.left-panel,
+.right-panel {
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.center-panel {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.left-panel {
+  background-color: #f0f0f0;
+  overflow: none;
+}
+
+.right-panel {
+  background-color: #e0e0e0;
+  overflow: none;
+}
+
+.center-panel {
+  background-color: #fff;
+  overflow-y: hidden;
+}
+
+h2 {
+  margin-top: 0;
+}

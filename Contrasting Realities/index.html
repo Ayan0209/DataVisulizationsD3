@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="scrollerHandler.js" defer></script>
+  <script src="script.js" defer></script>
+  <title>Contrasting Realities</title>
+</head>
+<body>
+
+  <div class="tooltip"></div>
+  
+  <div class="breaker">
+    <div class="center-panel">
+      <h2>Contrasting Realities</h2>
+      <p>Write a small write-up discussing the two countries in general.</p>
+    </div>
+  </div>
+
+  <div id="section1" class="step">
+    <div class="left-panel">
+      <svg id="usMap" width="100%" height="100%"></svg>
+    </div>
+    <div class="right-panel">
+      <svg id="indiaMap" width="100%" height="100%"></svg>
+    </div>
+  </div>
+  
+  <div class="breaker">
+    <div class="center-panel">
+      <h2>GDP Comparison (2000-2017)</h2>
+      <p>Write a description of the GDP comparison between the US and India.</p>
+    </div>
+  </div>
+
+  <!-- Second Section - GDP Comparison (2000-2017) -->
+  <div id="section2" class="step">
+    <div class="left-panel">
+      <svg id="usGDPChart" width="100%" height="100%"></svg>
+    </div>
+    <div class="right-panel">
+      <svg id="indiaGDPChart" width="100%" height="100%"></svg>
+    </div>
+  </div>
+
+  <div class="breaker">
+    <div class="center-panel">
+      <h2>Literacy Rate Comparison</h2>
+      <p>Write a description of the literacy rate comparison between the US and India.</p>
+    </div>
+  </div>
+
+  <!-- Third Section - Literacy Rate Comparison -->
+  <div id="section3" class="step">
+    <div class="left-panel">
+      <svg id="usLiteracyChart" width="100%" height="100%"></svg>
+    </div>
+    <div class="right-panel">
+      <svg id="indiaLiteracyChart" width="100%" height="100%"></svg>
+    </div>
+  </div>
+
+  <div class="breaker">
+    <div class="center-panel">
+      <h2>Unemployment Rate Comparison (2013-2023)</h2>
+      <p>Write a description of the unemployment rate comparison between the US and India.</p>
+    </div>
+  </div>
+
+  <!-- Fourth Section - Unemployment Rate Comparison (2013-2023) -->
+  <div id="section4" class="step">
+    <div class="left-panel">
+      <svg id="usUnemploymentChart" width="100%" height="100%"></svg>
+    </div>
+    <div class="right-panel">
+      <svg id="indiaUnemploymentChart" width="100%" height="100%"></svg>
+    </div>
+  </div>
+  <div class="breaker">
+    <div class="center-panel">
+      <h2>CO2 Emission Comparison (1990-2020)</h2>
+      <p>Write a description of the CO2 emission comparison between the US and India.</p>
+    </div>
+  </div>
+
+  <!-- Fifth Section - CO2 Emission Comparison (1990-2020) -->
+  <div id="section5" class="step">
+    <div class="left-panel panel">
+      <svg id="usCO2Chart" width="100%" height="100%"></svg>
+    </div>
+    <div class="right-panel panel">
+      <svg id="indiaCO2Chart" width="100%" height="100%"></svg>
+    </div>
+  </div>
+  <div class="breaker">
+    <div class="center-panel">
+      <h2>Military Expenditure Comparison (1990-2020)</h2>
+      <p>Write a description of the military expenditure comparison between the US and India.</p>
+    </div>
+  </div>
+
+  <!-- sixth Section - Military Expenditure Comparison (1990-2020) -->
+  <div id="section5" class="step">
+    <div class="left-panel panel">
+      <svg id="usMilitaryExpenditureChart" width="100%" height="100%"></svg>
+    </div>
+    <div class="right-panel panel">
+      <svg id="indiaMilitaryExpenditureChart" width="100%" height="100%"></svg>
+    </div>
+  </div>
+  <div class="breaker"></div>
+
+</body>
+</html>
